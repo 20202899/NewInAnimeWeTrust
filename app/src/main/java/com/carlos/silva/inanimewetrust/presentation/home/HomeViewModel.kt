@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(application: Application, interactors: Interactors) :
     InAnimeWeTrustViewModel(application, interactors) {
-    val homeLiveData = MutableLiveData<MutableList<Any>>()
+    val homeLiveData = MutableLiveData<MutableList<HomeItem>>()
     val animeLiveData = MutableLiveData<Anime?>()
 
     init {
         viewModelScope.launch {
-            homeLiveData.value = async { interactors.getHome() }.await()
+            homeLiveData.value = async { interactors.getHome() as MutableList<HomeItem> }.await()
         }
     }
 

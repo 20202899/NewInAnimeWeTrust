@@ -27,9 +27,6 @@
             android:screenOrientation="landscape"
             android:name=".presentation.VideoActivity"/>
 
-        <meta-data
-            android:name="JW_LICENSE_KEY"
-            android:value="3AHlMqB+a7CS8RYUG/V48AHyT2WEywo9tFqvt461DDc/3njEyy8AvfKxm8dqMvqT" />
     </application>
 
 </manifest>

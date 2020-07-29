@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.carlos.silva.core.domain.Episode
 import com.carlos.silva.inanimewetrust.R
+import com.carlos.silva.inanimewetrust.presentation.home.HomeItem
 import kotlinx.android.synthetic.main.viewpager_episode_item.*
 
 class PresentFragment : Fragment() {
@@ -24,7 +26,7 @@ class PresentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (arguments?.getSerializable(EXTRAS) as com.carlos.silva.core.domain.Episode?)?.let {
+        (arguments?.getSerializable(EXTRAS) as Episode?)?.let {
             Glide.with(requireContext())
                 .load(it.imagePath)
                 .into(image)
@@ -35,7 +37,7 @@ class PresentFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(episode: com.carlos.silva.core.domain.Episode) = PresentFragment()
+        fun newInstance(episode: Episode) = PresentFragment()
             .apply {
             arguments = Bundle().apply {
                 putSerializable(EXTRAS, episode)

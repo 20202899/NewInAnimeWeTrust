@@ -5,38 +5,36 @@ import com.carlos.silva.core.data.LoadAnimeDataSource
 import com.carlos.silva.core.domain.Anime
 import com.carlos.silva.core.domain.Episode
 import com.carlos.silva.core.domain.Video
+import com.carlos.silva.inanimewetrust.presentation.home.HomeAdapter
+import com.carlos.silva.inanimewetrust.presentation.home.HomeItem
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
 class RemoteAnimeRepository : LoadAnimeDataSource {
+
     override suspend fun getHome() = withContext(Dispatchers.Default) {
         val doc = Jsoup.connect(RequestURL.MAIN_URL).get()
         val aniContainer = doc.select(".aniContainer")
         val epiSubContainer = doc.select(".epiSubContainer")
         val list = mutableListOf<Any>()
 
-        list.addAll(aniContainer.map { element ->
-            element.select(".aniItem").map {
-                Anime.mount(it)
-            }
-        })
+        aniContainer.forEach { element ->
+            val animes = mutableListOf<Anime>()
+            val title = element.select(".aniContainerTitulo").textNodes().last()
+                .toString()
+            animes.addAll(element.select(".aniItem").map { Anime.mount(it) })
+            list.add(HomeItem(null, null, title, HomeAdapter.HEADER_TYPE))
+            list.add(HomeItem(animes, null, null, HomeAdapter.ITEM_TYPE))
+        }
 
-        list.addAll(
-            2,
-            epiSubContainer.map { element ->
-                element.select(".epiItem")
-                    .map {
-                        Episode.mount(it)
-                    }
-            }
-        )
-
-        list.add(0, "Tendência")
-        list.add(2, "Recentes")
-        list.add(4, "Disponível")
-        list.add(6, "Lançamentos do Dia")
+        epiSubContainer.forEach { element ->
+            val episodes = element.select(".epiItem").map { Episode.mount(it) }
+                .toMutableList()
+            list.add(HomeItem(null, null, "Disponível", HomeAdapter.HEADER_TYPE))
+            list.add(HomeItem(null, episodes, null, HomeAdapter.EPISODE_TYPE))
+        }
 
         return@withContext list
     }

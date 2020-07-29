@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.carlos.silva.core.domain.Anime
@@ -55,6 +56,11 @@ class HomeFragment : Fragment() {
                 if (it.adapter == null) {
                     with(it) {
                         setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
                         adapter = HomeAdapter(
                             list,
                             requireActivity() as AppCompatActivity, homeViewModel::selectAnime)
