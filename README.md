@@ -1,9 +1,14 @@
 # NewInAnimeWeTrust
 Nova versão utilizando as novas tecnologias do Android Architecture Components e os padrões de arquitetura, Clean Architecture e MVVM.
+<br/>
 Advanced Navigation Component
+<br/>
 Kotlin Coroutines
+<br/>
 Android Room
+<br/>
 Android ViewModel
+<br/>
 Dependency injection
 
 
