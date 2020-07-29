@@ -3,4 +3,6 @@
     <string name="home_title">Home</string>
     <string name="favorite_title">Favoritos</string>
     <string name="search_title">Pesquisar</string>
+    <string name="play_sd">SD</string>
+    <string name="play_hd">HD</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.carlos.silva.inanimewetrust.presentation.anime
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.carlos.silva.core.domain.Anime
 import com.carlos.silva.inanimewetrust.R
 import com.carlos.silva.inanimewetrust.framework.InAnimeWeTrustViewModelFactory
 import com.carlos.silva.inanimewetrust.presentation.MainActivity
+import com.carlos.silva.inanimewetrust.presentation.VideoActivity
 import kotlinx.android.synthetic.main.anime_fragment.*
 
 class AnimeFragment : Fragment() {
@@ -43,7 +45,7 @@ class AnimeFragment : Fragment() {
             with(recyclerview) {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = AnimeAdapter(it)
+                adapter = AnimeAdapter(it, this@AnimeFragment::openVideo)
             }
         })
 
@@ -51,6 +53,12 @@ class AnimeFragment : Fragment() {
             animeViewModel.getEpisodes(it)
         })
 
+    }
+
+    private fun openVideo(animeItem: AnimeItem) {
+        startActivity(Intent(requireActivity(), VideoActivity::class.java).apply {
+            putExtra(AnimeItem.EXTRAS, animeItem)
+        })
     }
 
     private fun loadArguments() {

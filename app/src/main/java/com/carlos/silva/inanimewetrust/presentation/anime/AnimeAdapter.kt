@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -12,7 +13,7 @@ import com.carlos.silva.core.domain.Episode
 import com.carlos.silva.inanimewetrust.R
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-class AnimeAdapter(val items: List<AnimeItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AnimeAdapter(val items: List<AnimeItem>, val onClickListener: (animeItem: AnimeItem) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         if (viewType == HEADER_TYPE) {
             HeaderViewHolder(
@@ -49,6 +50,9 @@ class AnimeAdapter(val items: List<AnimeItem>) : RecyclerView.Adapter<RecyclerVi
                 holder.bind(item)
             }
             is ItemViewHolder -> {
+                holder.itemView.setOnClickListener{
+                    onClickListener.invoke(item)
+                }
                 holder.bind(item)
             }
         }

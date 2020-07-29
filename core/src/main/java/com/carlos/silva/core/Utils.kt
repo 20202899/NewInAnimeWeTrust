@@ -16,4 +16,7 @@ object Utils {
         return gson.fromJson(endless, type)
     }
     fun getDigitFromString(s: String) = "\\d+".toRegex().find(s)!!.groupValues.last().toInt()
+
+    const val KEY_WARD_SD = "SD"
+    const val KEY_WAR_HD = "HD"
 }

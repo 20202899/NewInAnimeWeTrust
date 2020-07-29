@@ -4,10 +4,11 @@ import com.carlos.silva.core.Utils
 import com.carlos.silva.core.data.LoadAnimeDataSource
 import com.carlos.silva.core.domain.Anime
 import com.carlos.silva.core.domain.Episode
+import com.carlos.silva.core.domain.Video
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import java.lang.Exception
 
 class RemoteAnimeRepository : LoadAnimeDataSource {
     override suspend fun getHome() = withContext(Dispatchers.Default) {
@@ -53,4 +54,17 @@ class RemoteAnimeRepository : LoadAnimeDataSource {
         val videoId = Utils.getDigitFromString(url)
         return@withContext epiSubContainer.map { Episode.mount(it) }.toMutableList()
     }
+
+    override suspend fun loadEpisode(url: String?) = withContext(Dispatchers.Default) {
+        val doc = Jsoup.connect(url).get()
+        val scripts = doc.select("script")
+        val script =
+            scripts.find { it.toString().contains("sources:") }.toString()
+        val type = object : TypeToken<MutableList<Video>>() {}.type
+        return@withContext Utils.uncodedScriptText<MutableList<Video>>(
+            script,
+            type
+        )
+    }
+
 }
